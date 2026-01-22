@@ -5,7 +5,7 @@ import { HttpIngestService } from './http-ingest.service';
 export class HttpIngestController {
   constructor(private readonly httpIngestService: HttpIngestService) {}
 
-  @Post('/event')
+  @Post('/user-event/created')
   async ingestData(@Body() data: unknown): Promise<any> {
     try {
       await this.httpIngestService.ProcessEvent(data);

@@ -1,16 +1,12 @@
-import { BadGatewayException, Injectable } from '@nestjs/common';
-import { UserCreatedEventSchema, UserCreatedEventType } from '@common/schemas';
+import {  Injectable } from '@nestjs/common';
+import {EventsRegistry} from '@common/schemas'
 
 @Injectable()
 export class HttpIngestService {
   constructor() {}
 
   async ProcessEvent(data: unknown): Promise<any> {
-    const parsedEvent  = UserCreatedEventSchema.parse(data) as UserCreatedEventType;
-    if (!parsedEvent) {
-      throw new Error('Invalid event data')
-    }
-
+    const parsedEvent  = EventsRegistry.UserCreated.parse(data)
     console.log('Processsing Event .... :', parsedEvent);
   }
 }
