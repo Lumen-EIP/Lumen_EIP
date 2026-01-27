@@ -5,8 +5,8 @@ import { HttpIngestService } from './http-ingest.service';
 export class HttpIngestController {
   constructor(private readonly httpIngestService: HttpIngestService) {}
 
-  @Post('/user-event/created')
-  async ingestData(@Body() data: unknown): Promise<any> {
+  @Post('/events/identity')
+  async ingestIdentityEvents(@Body() data: unknown): Promise<any> {
     try {
       await this.httpIngestService.ProcessEvent(data);
       return { message : 'Event Data Received' , status : HttpStatus.OK}
