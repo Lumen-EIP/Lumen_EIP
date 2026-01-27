@@ -10,12 +10,12 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "ES2023",
+    "target": "ES2022",
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "@common/*": ["../../packages/common/*/src/main"]
+      "@common/*": ["../../packages/common/*/src/index"]
     },
     "incremental": true,
     "skipLibCheck": true,
