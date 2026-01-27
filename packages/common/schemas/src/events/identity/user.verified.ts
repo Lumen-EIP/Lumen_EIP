@@ -3,7 +3,7 @@ import { BaseEventSchema } from '../baseEvent';
 
 
 const UserVerifiedV1EventSchema = BaseEventSchema.extend({
-  eventName: z.literal('user.verified'),
+  eventName: z.literal('USER_VERIFIED'),
   version: z.literal(1),
   data: z.object({
     userId: z.uuid(),

@@ -1,22 +1,12 @@
 
 import {z} from 'zod'
-import { UserCreatedEvent } from './events/identity/user.created'
-import { UserDeletedEvent } from './events/identity/user.deleted'
-import { UserVerifiedEvent } from './events/identity/user.verified'
-import { PaymentInitiatedEvent } from './events/biling/payment.initiate'
-import { PaymentCompleteEvent } from './events/biling/payment.complete'
-import { RefundIssuedEvent } from './events/biling/refund.issued'
-import { LoginFailedEvent } from './events/auth/login.failure'
-import { LoginSuccessEvent } from './events/auth/login.success'
+import { IdentityEvents } from './events/identity/main'
+import { BillingEvents } from './events/biling/main'
+import { AuthEvents } from './events/auth/main'
 
 
 export const EventsRegistry = {
-    UserCreated : UserCreatedEvent,
-    UserDeleted : UserDeletedEvent,
-    UserVerified : UserVerifiedEvent,
-    PaymentInitiated : PaymentInitiatedEvent,
-    PaymentCompleted : PaymentCompleteEvent,
-    RefundIssued : RefundIssuedEvent,
-    LoginFailure : LoginFailedEvent,
-    LoginSuccess : LoginSuccessEvent
+    IdentityEvents,
+    BillingEvents,
+    AuthEvents
 }

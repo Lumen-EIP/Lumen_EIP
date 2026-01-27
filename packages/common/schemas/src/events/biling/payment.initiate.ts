@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { BaseEventSchema } from '../baseEvent';
 
 const PaymentInitiatedV1EventSchema = BaseEventSchema.extend({
-  eventName: z.literal('payment.initiated'),
+  eventName: z.literal('PAYMENT_INITIATED'),
   version: z.literal(1),
   data: z.object({
     paymentId: z.uuid(),

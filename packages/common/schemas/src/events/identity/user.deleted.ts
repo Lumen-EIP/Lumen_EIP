@@ -4,7 +4,7 @@ import { BaseEventSchema } from '../baseEvent';
 
 
 const UserDeletedV1EventSchema = BaseEventSchema.extend({
-  eventName: z.literal('user.deleted'),
+  eventName: z.literal('USER_DELETED'),
   version: z.literal(1),
   data: z.object({
     userId: z.uuid(),

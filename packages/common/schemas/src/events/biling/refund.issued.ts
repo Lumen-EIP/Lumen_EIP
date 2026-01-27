@@ -2,7 +2,7 @@ import {z} from 'zod'
 import { BaseEventSchema } from '../baseEvent';
 
 const RefundIssuedV1EventSchema = BaseEventSchema.extend({
-  eventName: z.literal('refund.issued'),
+  eventName: z.literal('REFUND_ISSUED'),
   version: z.literal(1),
   data: z.object({
     refundId: z.string().uuid(),

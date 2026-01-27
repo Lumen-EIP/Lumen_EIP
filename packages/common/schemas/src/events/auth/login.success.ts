@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { BaseEventSchema } from '../baseEvent';
 
 const LoginSucceededV1EventSchema = BaseEventSchema.extend({
-  eventName: z.literal('login.succeeded'),
+  eventName: z.literal('LOGIN_SUCCESS'),
   version: z.literal(1),
   data: z.object({
     userId: z.uuid(),

@@ -2,7 +2,7 @@ import {z} from 'zod'
 import { BaseEventSchema } from '../baseEvent'
 
 const UserCreatedV1EventSchema = BaseEventSchema.extend({
-    eventName : z.literal('user.created'),
+    eventName : z.literal('USER_CREATED'),
     version : z.literal(1),
     data : z.object({
         email : z.email(),

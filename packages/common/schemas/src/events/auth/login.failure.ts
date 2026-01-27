@@ -3,7 +3,7 @@ import {BaseEventSchema} from '../baseEvent'
 
 
 const LoginFailedV1EventSchema = BaseEventSchema.extend({
-  eventName: z.literal('login.failed'),
+  eventName: z.literal('LOGIN_FAILURE'),
   version: z.literal(1),
   data: z.object({
     userId : z.uuid(),

@@ -3,7 +3,7 @@ import {BaseEventSchema} from '../baseEvent'
 
 
 const PaymentCompletedV1EventSchema = BaseEventSchema.extend({
-  eventName: z.literal('payment.completed'),
+  eventName: z.literal('PAYMENT_COMPLETED'),
   version: z.literal(1),
   data: z.object({
     paymentId: z.uuid(),
