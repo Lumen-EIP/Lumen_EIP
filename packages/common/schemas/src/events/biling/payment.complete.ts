@@ -4,12 +4,13 @@ import {BaseEventSchema} from '../baseEvent'
 
 const PaymentCompletedV1EventSchema = BaseEventSchema.extend({
   eventName: z.literal('PAYMENT_COMPLETED'),
+  domain : z.literal('BilingEvents'),
   version: z.literal(1),
   data: z.object({
     paymentId: z.uuid(),
     userId: z.uuid(),
     amount: z.number().positive(),
-    completedAt: z.date().refine((date) => date instanceof Date && !isNaN(date.getTime())),
+    completedAt: z.iso.datetime()
   }),
 });
 

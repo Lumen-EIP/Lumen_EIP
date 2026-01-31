@@ -5,9 +5,17 @@ import {  Injectable } from '@nestjs/common';
 export class HttpIngestService {
   constructor() {}
 
-  async ProcessEvent(data: unknown): Promise<any> {
+  async processIdentityEvent(data: unknown): Promise<any> {
 
   console.log("//parsing event : " , data);
 
+  }
+
+  async processAuthEvents(data : unknown) : Promise<any>{
+    console.log("Processing Auth Event : " , data)
+  }
+
+  async processBilingEvents(data : unknown) : Promise<any>{
+    console.log("Processing Biling Event : " , data)
   }
 }

@@ -1,8 +1,7 @@
 import { ArgumentMetadata, BadRequestException, Injectable, InternalServerErrorException, PipeTransform } from "@nestjs/common";
-import { BaseEventSchema } from "../../../../packages/common/schemas/src/events/baseEvent";
 import { EventsRegistry } from "@common/schemas";
 import {z} from 'zod'
-
+import { BaseEventSchema } from "../../../../packages/common/schemas/src/events/baseEvent";
 
 type EventDomain = keyof typeof EventsRegistry
 
