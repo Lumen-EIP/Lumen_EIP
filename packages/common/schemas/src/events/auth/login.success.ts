@@ -3,10 +3,11 @@ import { BaseEventSchema } from '../baseEvent';
 
 const LoginSucceededV1EventSchema = BaseEventSchema.extend({
   eventName: z.literal('LOGIN_SUCCESS'),
+  domain : z.literal('AuthEvents'),
   version: z.literal(1),
   data: z.object({
     userId: z.uuid(),
-    loginDate: z.date().refine((date) => date instanceof Date && !isNaN(date.getTime())),
+    loginDate: z.iso.datetime()
   }),
 });
 

@@ -4,10 +4,11 @@ import { BaseEventSchema } from '../baseEvent';
 
 const UserVerifiedV1EventSchema = BaseEventSchema.extend({
   eventName: z.literal('USER_VERIFIED'),
+  domain: z.literal('IdentityEvents'),
   version: z.literal(1),
   data: z.object({
     userId: z.uuid(),
-    verifiedAt: z.date().refine((date) => date instanceof Date && !isNaN(date.getTime())),
+    verifiedAt: z.iso.datetime()
   }),
 });
 
