@@ -15,7 +15,7 @@ export class HttpIngestController {
 
   @Post('/events/identity')
   async ingestIdentityEvents(
-    @Body(createEventValidatorPipe('IdentityEvents')) data: unknown,
+    @Body(createEventValidatorPipe('IdentityEvents')) data: any,
   ): Promise<any> {
     try {
       await this.httpIngestService.processIdentityEvent(data);
@@ -27,7 +27,7 @@ export class HttpIngestController {
 
   @Post('/events/auth')
   async ingestAuthEvents(
-    @Body(createEventValidatorPipe('AuthEvents')) data: unknown,
+    @Body(createEventValidatorPipe('AuthEvents')) data: any,
   ): Promise<any> {
     try {
       await this.httpIngestService.processAuthEvents(data);
@@ -39,7 +39,7 @@ export class HttpIngestController {
 
   @Post('/events/biling')
   async ingestBilingEvents(
-    @Body(createEventValidatorPipe('BilingEvents')) data: unknown,
+    @Body(createEventValidatorPipe('BilingEvents')) data: any,
   ): Promise<any> {
     try {
       await this.httpIngestService.processBilingEvents(data);

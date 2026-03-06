@@ -1,6 +1,6 @@
-import { Queue, tryCatch } from "bullmq";
+import { Queue} from "bullmq";
 import { QUEUESDOMAINs } from "../constants/domains";
-import type { DomainEvent, EventBus } from "../event-bus.interface";
+import type { DomainEvent, EventBus } from "../../types/event-bus.interface";
 import { redisConnection } from "../config/redis";
 
 
@@ -22,6 +22,7 @@ export class EventBusAdapter implements EventBus {
         try {
 
             await this.queue.add(event.name, event);
+            console.log("Event published to bus : ", event)
             return {message : "Successfull Event Bus write", success : true};
         } catch (error) {
             console.log(error);
