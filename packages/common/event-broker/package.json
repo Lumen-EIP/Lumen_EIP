@@ -10,10 +10,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/amqplib": "^0.10.8",
     "@types/node": "^25.3.3",
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "amqplib": "^0.10.9",
     "bullmq": "^5.70.2",
     "ioredis": "^5.10.0"
   }

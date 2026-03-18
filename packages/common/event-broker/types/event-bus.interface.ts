@@ -19,3 +19,10 @@ export interface EventBus{
     publish : (event : DomainEvent) => Promise<any>;
     publishBatch: (events : DomainEvent[]) => Promise<any>;
 }
+
+export interface EventBrokerConsumer{
+    init: () => Promise<void>;
+    subscribe: (key : string, handler : EventHandler) => void;
+    start : () => Promise<void>;
+    stop : () =>Promise<void>;
+}

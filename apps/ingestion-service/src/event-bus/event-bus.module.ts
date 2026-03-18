@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import {EventBusAdapter} from '@common/event-broker'
+import {AMQPEventBusAdapter} from '@common/event-broker'
 import type {EventBus} from '@common/event-broker'
 import { EVENT_BUS } from 'src/constants/event-bus.token';
 
@@ -7,7 +7,7 @@ import { EVENT_BUS } from 'src/constants/event-bus.token';
     providers: [{
         provide : EVENT_BUS,
         useFactory : () : EventBus => {
-            return new EventBusAdapter()
+            return new AMQPEventBusAdapter()
         }
     }],
     exports : [EVENT_BUS]
