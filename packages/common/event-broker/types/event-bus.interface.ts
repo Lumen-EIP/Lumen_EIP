@@ -14,9 +14,15 @@ export interface DomainEvent<T = any>{
 
 export type EventHandler = (event : DomainEvent) => Promise<void>
 
+export interface JobQueue{
+    publish : (event : DomainEvent) => Promise<any>;
+    publishBatch: (events : DomainEvent[]) => Promise<any>;
+}
+
 
 export interface EventBus{
     publish : (event : DomainEvent) => Promise<any>;
+    safePublish : (event : DomainEvent,) => Promise<void>;
     publishBatch: (events : DomainEvent[]) => Promise<any>;
 }
 

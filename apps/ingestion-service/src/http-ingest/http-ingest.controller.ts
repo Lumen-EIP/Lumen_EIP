@@ -19,7 +19,7 @@ export class HttpIngestController {
   ): Promise<any> {
     try {
       await this.httpIngestService.processIdentityEvent(data);
-      return { message: 'Event Data Received', status: HttpStatus.OK };
+      return { message: 'Event Data Received', status: HttpStatus.ACCEPTED };
     } catch (error) {
       throw new InternalServerErrorException('Error ', error.message);
     }
@@ -31,7 +31,7 @@ export class HttpIngestController {
   ): Promise<any> {
     try {
       await this.httpIngestService.processAuthEvents(data);
-      return { message: 'Event Data Received', status: HttpStatus.OK };
+      return { message: 'Event Data Received and pushed to AMQP', status: HttpStatus.ACCEPTED };
     } catch (error) {
       throw new InternalServerErrorException('Error ', error.message);
     }
@@ -43,7 +43,7 @@ export class HttpIngestController {
   ): Promise<any> {
     try {
       await this.httpIngestService.processBilingEvents(data);
-      return { message: 'Event Data Received', status: HttpStatus.OK };
+      return { message: 'Event Data Received', status: HttpStatus.ACCEPTED };
     } catch (error) {
       throw new InternalServerErrorException('Error ', error.message);
     }

@@ -24,7 +24,7 @@ export class HttpIngestService {
         timestamp : Date.now()
       } 
 
-      await this.authEventBus.publish(authEventPayload)
+      await this.authEventBus.safePublish(authEventPayload)
       
     } catch (error) {
       console.log(error.message);

@@ -1,11 +1,11 @@
 import { Queue} from "bullmq";
 import { QUEUESDOMAINs } from "../constants/domains";
-import type { DomainEvent, EventBus } from "../../types/event-bus.interface";
+import type { DomainEvent, EventBus, JobQueue } from "../../types/event-bus.interface";
 import { redisConnection } from "../config/redis";
 
 
 
-export class EventBusAdapter implements EventBus {
+export class EventBusAdapter implements JobQueue {
     private queue: Queue<DomainEvent>
 
 
