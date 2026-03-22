@@ -8,3 +8,5 @@ export const IdentityEvents = {
     USER_DELETED: UserDeletedEvent,
     USER_VERIFIED: UserVerifiedEvent
 }
+
+export type IdentityEventsType = typeof IdentityEvents[keyof typeof IdentityEvents]

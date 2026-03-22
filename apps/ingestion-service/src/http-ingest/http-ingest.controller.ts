@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { HttpIngestService } from './http-ingest.service';
 import { createEventValidatorPipe } from 'src/pipes/EventValidator';
+import {EventRegistryType} from '@common/schemas'
 
 @Controller('http-ingest')
 export class HttpIngestController {
@@ -15,7 +16,7 @@ export class HttpIngestController {
 
   @Post('/events/identity')
   async ingestIdentityEvents(
-    @Body(createEventValidatorPipe('IdentityEvents')) data: any,
+    @Body(createEventValidatorPipe('IdentityEvents')) data: EventRegistryType['IdentityEvents'],
   ): Promise<any> {
     try {
       await this.httpIngestService.processIdentityEvent(data);
@@ -27,7 +28,7 @@ export class HttpIngestController {
 
   @Post('/events/auth')
   async ingestAuthEvents(
-    @Body(createEventValidatorPipe('AuthEvents')) data: any,
+    @Body(createEventValidatorPipe('AuthEvents')) data: EventRegistryType['AuthEvents'],
   ): Promise<any> {
     try {
       await this.httpIngestService.processAuthEvents(data);
@@ -39,7 +40,7 @@ export class HttpIngestController {
 
   @Post('/events/biling')
   async ingestBilingEvents(
-    @Body(createEventValidatorPipe('BilingEvents')) data: any,
+    @Body(createEventValidatorPipe('BilingEvents')) data: EventRegistryType['BilingEvents'],
   ): Promise<any> {
     try {
       await this.httpIngestService.processBilingEvents(data);
