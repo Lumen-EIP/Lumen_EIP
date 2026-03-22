@@ -1,4 +1,5 @@
 import type { EventBus} from '@common/event-broker';
+import type{BaseEventType, EventRegistryType} from '@common/schemas'
 import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { EVENT_BUS } from 'src/constants/event-bus.token';
 import { DomainEvent } from '../../../../packages/common/event-broker/types/event-bus.interface';
@@ -6,25 +7,37 @@ import { DomainEvent } from '../../../../packages/common/event-broker/types/even
 @Injectable()
 export class HttpIngestService {
   constructor(
-    @Inject(EVENT_BUS) private readonly authEventBus : EventBus
+    @Inject(EVENT_BUS) private readonly HTTPEventBus : EventBus
   ) {}
 
-  async processIdentityEvent(data: any): Promise<any> {
-    console.log('//parsing event : ', data);
+  private domainEventMapper<T extends BaseEventType>(rawevent : T) : DomainEvent<typeof rawevent.data>{
+    return {
+      name : rawevent.eventName,
+      id : rawevent.eventId,
+      domain : rawevent.domain,
+      payload : rawevent.data,
+      timestamp : Date.now(),
+    }
+  }
+ 
+  async processIdentityEvent(data: EventRegistryType['IdentityEvents']): Promise<any> {
+    console.log('Processing Identity event : ', data);
+    try {
+      const identityEventPayload = this.domainEventMapper<EventRegistryType['IdentityEvents']>(data)
+      await this.HTTPEventBus.safePublish(identityEventPayload)
+    } catch (error) {
+      throw new InternalServerErrorException(error.message)
+    }
   }
 
-  async processAuthEvents(data: any): Promise<any> {
+  async processAuthEvents(data: EventRegistryType['AuthEvents']): Promise<any> {
     console.log('Processing Auth Event : ', data);
     try {
-      const authEventPayload : DomainEvent = {
-        name : data.eventName,
-        id : crypto.randomUUID(),
-        domain : 'AuthEvents',
-        payload : data.data,
-        timestamp : Date.now()
-      } 
+      
+      const authEventPayload = this.domainEventMapper<EventRegistryType['AuthEvents']>(data);
+      console.log(authEventPayload.payload)
 
-      await this.authEventBus.safePublish(authEventPayload)
+      await this.HTTPEventBus.safePublish(authEventPayload)
       
     } catch (error) {
       console.log(error.message);
@@ -32,7 +45,15 @@ export class HttpIngestService {
     }
   }
 
-  async processBilingEvents(data: any): Promise<any> {
+  async processBilingEvents(data: EventRegistryType['BilingEvents']): Promise<any> {
     console.log('Processing Biling Event : ', data);
+    try {
+      const bilingEventPayload = this.domainEventMapper<EventRegistryType['BilingEvents']>(data);
+      await this.HTTPEventBus.safePublish(bilingEventPayload);
+    } catch (error) {
+      throw new InternalServerErrorException(error.message)
+      
+    }
+
   }
 }

@@ -9,4 +9,4 @@ export const IdentityEvents = {
     USER_VERIFIED: UserVerifiedEvent
 }
 
-export type IdentityEventsType = typeof IdentityEvents[keyof typeof IdentityEvents]
+export type IdentityEventsType = z.infer<typeof IdentityEvents[keyof typeof IdentityEvents]>

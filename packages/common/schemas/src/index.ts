@@ -16,3 +16,5 @@ export type EventRegistryType = {
     BilingEvents : BilingEventType,
     AuthEvents : AuthEventsType
 }
+
+export type {BaseEventType} from './events/baseEvent' 

@@ -1,3 +1,4 @@
+import type z from "zod";
 import { PaymentCompleteEvent, type PaymentCompletedEventType } from "./payment.complete";
 import { PaymentInitiatedEvent } from "./payment.initiate";
 import { RefundIssuedEvent } from "./refund.issued";
@@ -8,4 +9,4 @@ export const BilingEvents = {
     REFUND_ISSUED : RefundIssuedEvent
 }
 
-export type BilingEventType = typeof BilingEvents[keyof typeof BilingEvents]
+export type BilingEventType = z.infer< typeof BilingEvents[keyof typeof BilingEvents]>
