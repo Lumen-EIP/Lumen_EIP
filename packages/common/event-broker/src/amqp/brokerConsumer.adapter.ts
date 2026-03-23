@@ -45,6 +45,7 @@ export class AMQPBrokerConsumerAdapter implements EventBrokerConsumer {
                 this.channel.ack(event)
             } catch (error) {
                 console.log("error processing event", error);
+                this.channel.nack(event, false, true);
             }
         })
 
