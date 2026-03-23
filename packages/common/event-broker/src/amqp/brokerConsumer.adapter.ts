@@ -27,7 +27,7 @@ export class AMQPBrokerConsumerAdapter implements EventBrokerConsumer {
 
     start = async () => {
 
-        const q = await this.channel.assertQueue(this.queueName);
+        const q = await this.channel.assertQueue(this.queueName, {durable : true});
 
         for (const bindingKey of this.HandlerMap.keys()) {
             await this.channel.bindQueue(q.queue, EXCHANGE_NAME, bindingKey);
@@ -44,7 +44,7 @@ export class AMQPBrokerConsumerAdapter implements EventBrokerConsumer {
 
                 this.channel.ack(event)
             } catch (error) {
-                console.log("error processing event", error);
+                console.log("error processing event", error instanceof Error ? error.message : error); 
                 this.channel.nack(event, false, true);
             }
         })

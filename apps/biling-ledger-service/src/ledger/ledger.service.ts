@@ -33,6 +33,12 @@ export class LedgerService implements OnModuleInit, OnModuleDestroy{
         } 
 
 
+        // //stimulating failure
+        // if(event.payload.amount < 100.0){
+        //     throw new Error("Amount cannot be processed")
+        // }
+
+
         try {
             console.info("Received event for billing ledger:", event);
             // process it
