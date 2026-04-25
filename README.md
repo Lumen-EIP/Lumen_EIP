@@ -1,7 +1,14 @@
 <div align="center">
 
   # LUMEN EIP – Event Ingestion Platform
+  <img src="https://skillicons.dev/icons?i=typescript,nestjs,rabbitmq" />
+ 
 </div>
+
+
+---
+
+
 LUMEN EIP is a distributed event ingestion and processing platform designed to explore and implement reliable event-driven communication paradigms between microservices.
 
 The system is built by abiding the principles of Event Driven Architecture with a strong emphasis on message delivery semantics, failure handling, and controlled processing guarantees, rather than just functional correctness. It incrementally evolves toward production-grade patterns by explicitly addressing edge cases such as duplicate delivery, consumer crashes, and message acknowledgment boundaries.
