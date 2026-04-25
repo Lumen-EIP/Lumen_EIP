@@ -1,135 +1,52 @@
-# Turborepo starter
+<div align="center">
 
-This Turborepo starter is maintained by the Turborepo core team.
+  # LUMEN EIP – Event Ingestion Platform
+</div>
+LUMEN EIP is a distributed event ingestion and processing platform designed to explore and implement reliable event-driven communication paradigms between microservices.
 
-## Using this example
+The system is built by abiding the principles of Event Driven Architecture with a strong emphasis on message delivery semantics, failure handling, and controlled processing guarantees, rather than just functional correctness. It incrementally evolves toward production-grade patterns by explicitly addressing edge cases such as duplicate delivery, consumer crashes, and message acknowledgment boundaries.
 
-Run the following command:
+## Overview
+In a microservices architecture, services must communicate while preserving correctness, scalability, and fault isolation. Henceforth , communications between services in such a setup may be Synchronous or Asynchronous, both comes with their own tradeoffs. Asynchronous Communication or delayed communication comes with its own set of challenges like duplicate processing of events, events getting lost, consumer failing at different stages of acknowledging to producer. Naive implementation can often tend to ignore these, which results in systems which may look functional but may not scale and perform under real world operating conditions. 
+LUMEN EIP is built to address these challenges , by designing an architecture which decides wisely the communication pattern between services, makes them fault tolerant and resilient by implementing appropriate event delivery semantcs, Event persistent strategies, acknowledgement semantics, and code scaffolding patterns. However , there are tradeoffs and practical situations where the functioning of the system can be discussed. 
 
-```sh
-npx create-turbo@latest
+## System Architecture
+
+At a high level, LUMEN EIP follows a producer–broker–consumer model:
+
+```bsh
+┌───────────────┐     ┌────────────────────────────┐     ┌───────────────────────┐     ┌──────────────|
+│   Producers   │ ──► │      Ingestion Service     │ ──► │ Message Broker        │ ──► │   Consumers  |
+└───────────────┘     └────────────────────────────┘     │                       │     └──────────────┘
+                                                         └──────────-────────────┘            
+                                                                                             
+                                                                    
 ```
+This flow establishes asynchronous, decoupled communication between services while enabling controlled message processing and failure handling.
 
-## What's inside?
+### Component functionality
+#### 1. Ingestion Service (`apps/ingestion-service`)
+The entry point for all incoming data, ensuring it is sanitized and standardized. The Ingestion service must be deisgned to acheive a high **Throughput** in order to be able to handle masssive amount of incoming events.
+* **HTTP Endpoint:** Accepts events over standard HTTP protocols with specific APIs.
+* **Schema Validation:** Validates structure against shared schemas to ensure data integrity.
+* **Normalization and Preprocessing:** Normalizes events into a standard envelope for downstream consistency, along with some consumer specific preprocessing as needed.
+* **Broker Publishing:** Publishes validated events directly to the message broker by using the implemented Broker Abstraction layer.
 
-This Turborepo includes the following packages/apps:
+---
 
-### Apps and Packages
+#### 2. Message Broker (RabbitMQ)  (`packages/common/broker`)
+The central transport layer and communication medium in this System which promotes Asynchronous communication of events between services. It ensure loose coupling that manages communication between decoupled services.
+* **Decoupling:** Acts as the central event transport layer, decoupling producers from consumers.
+* **Asynchronous Processing:** Uses asynchronous processing to handle events, which enforces delayed but eventual consistency over the system.
+* **Delivery Guarantees:** Provides at-least-once delivery semantics.
+* **Manual Acknowledgments:** Enables explicit acknowledgment control (**ACK/NACK**) for reliable processing.
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+---
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+#### 3. Consumers
+Each consumer is a separate Nest repo in itself, each with its own envs, utils, libs and core logic and service apis.
+Independently deployed services responsible for the actual processing of events.
+* **Isolation:** Services are independently deployed and scaled based on specific logic needs.
+* **Data Ownership:** Each consumer owns it independent data , presistence models which leads to more robust evolution of services.
 
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
-```
-
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
-
-```
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
-
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
-
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
-
-```
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
-
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+  
