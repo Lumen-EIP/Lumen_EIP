@@ -11,7 +11,9 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "@common/*": ["../../packages/common/*/src/index"]
+      "@common/*": [
+        "../../packages/common/*/src/index"
+      ]
     },
     "incremental": true,
     "skipLibCheck": true,
