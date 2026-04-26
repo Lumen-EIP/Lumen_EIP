@@ -1,6 +1,6 @@
 <div align="center">
 
-  # LUMEN EIP – Event Ingestion Platform
+  # LUMEN EIP – Event Intelligence Platform
   <img src="https://skillicons.dev/icons?i=typescript,nestjs,rabbitmq" />
  
 </div>
